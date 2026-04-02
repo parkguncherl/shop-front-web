@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GGUANGGU 쇼핑몰 레이아웃</title>
+    <style>
+        /* 기본 초기화 */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Pretendard', -apple-system, sans-serif; color: #333; line-height: 1.4; background-color: #f5f5f5; }
+        ul { list-style: none; }
+
+        /* 모바일 컨테이너 (이미지 비율 유지) */
+        .wrapper {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        /* 헤더 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 100;
+        }
+        .menu-icon { width: 24px; cursor: pointer; }
+        .menu-icon span { display: block; width: 100%; height: 2px; background: #000; margin: 5px 0; }
+        .logo { font-size: 22px; font-weight: 900; letter-spacing: 2px; }
+        .header-icons { display: flex; gap: 15px; font-size: 18px; }
+
+        /* 메인 배너 */
+        .main-banner {
+            width: 100%;
+            height: 75vh;
+            background: #d1d5db url('https://via.placeholder.com/500x800') no-repeat center/cover;
+            display: flex;
+            align-items: flex-end;
+            padding: 40px 20px;
+            position: relative;
+        }
+        .banner-text { color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .banner-text h2 { font-size: 42px; line-height: 1; margin-bottom: 10px; font-weight: 300; }
+        .banner-text p { font-size: 12px; letter-spacing: 1px; opacity: 0.9; }
+
+        /* 카테고리 탭 */
+        .category-nav {
+            overflow-x: auto;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+            scrollbar-width: none; /* Firefox */
+        }
+        .category-nav::-webkit-scrollbar { display: none; } /* Chrome */
+        .category-nav ul { display: flex; padding: 0 20px; gap: 20px; white-space: nowrap; }
+        .category-nav li { font-size: 13px; color: #666; cursor: pointer; }
+        .category-nav li.active { font-weight: bold; color: #000; border-bottom: 2px solid #000; padding-bottom: 2px; }
+
+        /* 상품 섹션 */
+        .product-section { padding: 30px 20px; }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 20px;
+        }
+        .section-header h3 { font-size: 24px; font-weight: bold; }
+        .view-all { font-size: 12px; color: #888; }
+
+        /* 상품 그리드 (2열) */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 10px;
+        }
+        .product-card .img-box {
+            aspect-ratio: 3 / 4;
+            background: #f0f0f0;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            font-size: 12px;
+        }
+        .product-card .info .name { font-size: 13px; margin-bottom: 4px; }
+        .product-card .info .price-row { font-size: 12px; }
+        .original-price { text-decoration: line-through; color: #bbb; margin-right: 4px; }
+        .current-price { font-weight: bold; color: #333; }
+        .discount-rate { color: #ff5a5a; font-weight: bold; margin-left: 4px; }
+
+        /* 하단 배너 포인트 */
+        .point-tag {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            background: #2ecc71;
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 10px;
+            border-radius: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <!-- 헤더 -->
+    <header class="header">
+        <div class="menu-icon">
+            <span></span>
+            <span></span>
+        </div>
+        <h1 class="logo">GGUANGGU</h1>
+        <div class="header-icons">
+            <span>🔍</span>
+            <span>👤</span>
+            <span>👜</span>
+        </div>
+    </header>
+
+    <!-- 카테고리 메뉴 -->
+    <nav class="category-nav">
+        <ul>
+            <li class="active">봄 신상 ~50%</li>
+            <li>투데이특가</li>
+            <li>1+1</li>
+            <li>신상품</li>
+            <li>베스트셀러</li>
+            <li>전체상품</li>
+        </ul>
+    </nav>
+
+    <!-- 상품 섹션 -->
+    <section class="product-section">
+        <div class="section-header">
+            <h3>NEW</h3>
+            <span class="view-all">view 1 / 2</span>
+        </div>
+
+        <div class="product-grid">
+            <!-- 상품 1 -->
+            <div class="product-card">
+                <div class="img-box">IMAGE</div>
+                <div class="info">
+                    <p class="name">[CAREFREE] 코튼와이드SL</p>
+                    <p class="price-row">
+                        <span class="original-price">71,800WON</span>
+                        <span class="current-price">35,900WON</span>
+                        <span class="discount-rate">50%</span>
+                    </p>
+                </div>
+            </div>
+            <!-- 상품 2 -->
+            <div class="product-card">
+                <div class="img-box">IMAGE</div>
+                <div class="info">
+                    <p class="name">투버튼데님팬츠BL</p>
+                    <p class="price-row">
+                        <span class="original-price">65,800WON</span>
+                        <span class="current-price">32,900WON</span>
+                        <span class="discount-rate">50%</span>
+                    </p>
+                </div>
+            </div>
+            <!-- 추가 상품 예시 -->
+            <div class="product-card">
+                <div class="img-box">IMAGE</div>
+                <div class="info">
+                    <p class="name">베이직 린넨 셔츠</p>
+                    <p class="price-row">
+                        <span class="current-price">29,000WON</span>
+                    </p>
+                </div>
+            </div>
+            <div class="product-card">
+                <div class="img-box">IMAGE</div>
+                <div class="info">
+                    <p class="name">데일리 코튼 양말</p>
+                    <p class="price-row">
+                        <span class="current-price">3,500WON</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>
