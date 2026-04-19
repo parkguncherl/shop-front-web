@@ -1,0 +1,61 @@
+// ─── Colors ───────────────────────────────────────────
+$color-black:     #1a1a1a;
+$color-white:     #ffffff;
+$color-gray-50:   #fafafa;
+$color-gray-100:  #f5f5f5;
+$color-gray-200:  #eeeeee;
+$color-gray-300:  #dddddd;
+$color-gray-400:  #aaaaaa;
+$color-gray-500:  #888888;
+$color-gray-600:  #666666;
+$color-gray-700:  #444444;
+$color-gray-800:  #333333;
+$color-red:       #e53935;
+$color-primary:   #1a1a1a;
+$color-accent:    #c8a876;
+$color-bg:        #fafafa;
+
+// ─── Typography ───────────────────────────────────────
+$font-ko:         'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', sans-serif;
+$font-size-xs:    11px;
+$font-size-sm:    12px;
+$font-size-base:  14px;
+$font-size-md:    15px;
+$font-size-lg:    18px;
+$font-size-xl:    22px;
+$font-size-2xl:   28px;
+
+// ─── Spacing ──────────────────────────────────────────
+$spacing-2xs:  2px;
+$spacing-xs:   4px;
+$spacing-sm:   8px;
+$spacing-md:   16px;
+$spacing-lg:   24px;
+$spacing-xl:   40px;
+$spacing-2xl:  64px;
+
+// ─── Layout ───────────────────────────────────────────
+$max-width:         1200px;
+$header-height:     56px;
+$mobile-nav-height: 60px;
+$border-radius-sm:  4px;
+$border-radius-md:  8px;
+$border-radius-lg:  12px;
+$border-radius-xl:  20px;
+
+// ─── Transition ───────────────────────────────────────
+$transition-fast:   0.15s ease;
+$transition-base:   0.25s ease;
+$transition-slow:   0.4s ease;
+
+// ─── Breakpoints ──────────────────────────────────────
+$bp-mobile:  480px;
+$bp-tablet:  768px;
+$bp-desktop: 1024px;
+$bp-wide:    1280px;
+
+// ─── Z-index ──────────────────────────────────────────
+$z-header:  100;
+$z-drawer:  200;
+$z-modal:   300;
+$z-toast:   400;

@@ -1,0 +1,93 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.wrap {
+  background: $color-gray-50;
+  border-radius: $border-radius-lg;
+  padding: 20px;
+  border: 1px solid $color-gray-200;
+}
+
+.title {
+  font-size: $font-size-md;
+  font-weight: 600;
+  color: $color-black;
+  margin: 0 0 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid $color-gray-200;
+}
+
+.items {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.item {
+  @include flex-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.itemInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemName {
+  font-size: $font-size-base;
+  color: $color-gray-800;
+  margin: 0 0 3px;
+  @include ellipsis;
+}
+
+.itemOption {
+  font-size: $font-size-sm;
+  color: $color-gray-400;
+  margin: 0;
+}
+
+.itemPrice {
+  font-size: $font-size-base;
+  font-weight: 500;
+  color: $color-black;
+  flex-shrink: 0;
+}
+
+.summary {
+  padding-top: 14px;
+  border-top: 1px solid $color-gray-200;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  @include flex-between;
+  font-size: $font-size-base;
+  color: $color-gray-700;
+}
+
+.freeShippingHint {
+  font-size: $font-size-xs;
+  color: $color-accent;
+  margin: -4px 0 0;
+  text-align: right;
+}
+
+.total {
+  padding-top: 12px;
+  margin-top: 2px;
+  border-top: 1px solid $color-gray-200;
+  font-size: $font-size-md;
+  color: $color-black;
+
+  strong {
+    font-size: $font-size-lg;
+    font-weight: 700;
+    color: $color-black;
+  }
+}

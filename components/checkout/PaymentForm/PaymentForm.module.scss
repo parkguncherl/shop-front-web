@@ -1,0 +1,71 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.title {
+  font-size: $font-size-md;
+  font-weight: 600;
+  color: $color-black;
+  margin: 0;
+  padding-bottom: 14px;
+  border-bottom: 1px solid $color-gray-200;
+}
+
+.methods {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+
+  @include mobile {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.method {
+  @include reset-button;
+  height: 48px;
+  border: 1px solid $color-gray-300;
+  border-radius: $border-radius-md;
+  font-size: $font-size-sm;
+  font-weight: 400;
+  color: $color-gray-600;
+  transition: border-color $transition-fast, color $transition-fast,
+    background $transition-fast;
+
+  &:hover { border-color: $color-gray-500; color: $color-black; }
+
+  &.selected {
+    border-color: $color-black;
+    background: $color-black;
+    color: $color-white;
+    font-weight: 600;
+  }
+}
+
+.agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+  line-height: 1.5;
+}
+
+.checkbox {
+  margin-top: 2px;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  accent-color: $color-black;
+  cursor: pointer;
+}
+
+.payBtn {
+  margin-top: 4px;
+}

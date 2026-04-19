@@ -1,0 +1,67 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: $z-header;
+  height: $mobile-nav-height;
+  background: $color-white;
+  border-top: 1px solid $color-gray-200;
+  display: flex;
+  align-items: stretch;
+
+  // 데스크톱에서는 숨김
+  @include desktop { display: none; }
+
+  // 아이폰 Safe Area
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  text-decoration: none;
+  color: $color-gray-400;
+  transition: color $transition-fast;
+  -webkit-tap-highlight-color: transparent;
+
+  &.active { color: $color-black; }
+}
+
+.iconWrap {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  @include flex-center;
+}
+
+.badge {
+  position: absolute;
+  top: -4px;
+  right: -6px;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 3px;
+  background: $color-black;
+  color: $color-white;
+  font-size: 9px;
+  font-weight: 700;
+  border-radius: 8px;
+  @include flex-center;
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  line-height: 1;
+
+  .active & { font-weight: 600; }
+}

@@ -25,8 +25,8 @@
     "@next/bundle-analyzer": "^13.1.1",
     "@react-google-maps/api": "^2.18.1",
     "@serialport/list": "^12.0.0",
-    "@tanstack/react-query": "^4.36.1",
-    "@tanstack/react-query-devtools": "^4.36.1",
+    "@tanstack/react-query": "^5.99.1",
+    "@tanstack/react-query-devtools": "^5.99.1",
     "@types/jspdf": "^2.0.0",
     "@types/node": "18.11.16",
     "@types/react": "18.0.26",
@@ -35,6 +35,7 @@
     "antd": "^6.2.2",
     "axios": "1.13.5",
     "canvas": "^2.11.2",
+    "clsx": "^2.1.1",
     "cookies-next": "^4.3.0",
     "cross-env": "^7.0.3",
     "crypto-browserify": "^3.12.0",
@@ -130,4 +131,3 @@
     }
   }
 }
-

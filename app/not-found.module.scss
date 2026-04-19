@@ -1,0 +1,46 @@
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.wrap {
+  @include flex-center;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 100vh;
+  padding: $spacing-xl $spacing-md;
+  text-align: center;
+}
+
+.code {
+  font-size: 80px;
+  font-weight: 700;
+  color: $color-gray-200;
+  line-height: 1;
+  margin: 0;
+}
+
+.title {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $color-black;
+}
+
+.desc {
+  font-size: $font-size-base;
+  color: $color-gray-500;
+  line-height: 1.6;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 8px;
+  padding: 12px 28px;
+  background: $color-black;
+  color: $color-white;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  font-weight: 500;
+  transition: background $transition-fast;
+
+  &:hover { background: $color-gray-800; }
+}

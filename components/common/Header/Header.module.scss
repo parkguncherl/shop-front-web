@@ -1,0 +1,89 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: $z-header;
+  background: $color-white;
+  border-bottom: 1px solid $color-gray-200;
+  transition: box-shadow $transition-fast;
+
+  &.scrolled {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  }
+}
+
+.inner {
+  @include container;
+  @include flex-between;
+  height: $header-height;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: $color-black;
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.iconBtn {
+  @include reset-button;
+  @include flex-center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: $color-black;
+  transition: background $transition-fast;
+  text-decoration: none;
+  position: relative;
+
+  &:hover { background: $color-gray-100; }
+}
+
+// ─── Search bar ───────────────────────────────────────
+.searchBar {
+  border-top: 1px solid $color-gray-100;
+  animation: slideDown 0.2s ease;
+}
+
+.searchForm {
+  @include container;
+  display: flex;
+  align-items: center;
+  height: 48px;
+  gap: 8px;
+}
+
+.searchInput {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: $font-ko;
+  font-size: $font-size-base;
+  color: $color-black;
+  background: transparent;
+
+  &::placeholder { color: $color-gray-400; }
+}
+
+.searchSubmit {
+  @include reset-button;
+  @include flex-center;
+  color: $color-gray-600;
+  transition: color $transition-fast;
+  &:hover { color: $color-black; }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

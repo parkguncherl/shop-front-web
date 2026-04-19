@@ -1,0 +1,195 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.page {
+  @include container;
+  padding-top: 8px;
+  padding-bottom: 80px;
+}
+
+// ─── 필터 행 ──────────────────────────────────────────
+.filterRow {
+  @include flex-between;
+  padding: 14px 0 10px;
+}
+
+.pageTitle {
+  font-size: $font-size-md;
+  font-weight: 700;
+  color: $color-black;
+}
+
+.sortBtn {
+  @include reset-button;
+  font-size: $font-size-sm;
+  color: $color-gray-600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+// ─── 카테고리 탭 ──────────────────────────────────────
+.categoryRow {
+  @include hidden-scrollbar;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  border-bottom: 1px solid $color-gray-200;
+  margin-bottom: 16px;
+}
+
+.catBtn {
+  @include reset-button;
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: $font-size-sm;
+  color: $color-gray-500;
+  background: $color-gray-100;
+  white-space: nowrap;
+  transition: background $transition-fast, color $transition-fast;
+
+  &:hover {
+    background: $color-gray-200;
+    color: $color-black;
+  }
+}
+
+.catActive {
+  background: $color-black;
+  color: $color-white;
+}
+
+// ─── 상품 리스트 ──────────────────────────────────────
+.productList {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.productItem {
+  display: flex;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid $color-gray-100;
+  cursor: pointer;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover .image {
+    transform: scale(1.02);
+  }
+}
+
+// ─── 이미지 ───────────────────────────────────────────
+.imageWrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 120px;
+  height: 160px;
+  border-radius: $border-radius-md;
+  overflow: hidden;
+  background: $color-gray-100;
+
+  @include tablet-up {
+    width: 160px;
+    height: 213px;
+  }
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform $transition-slow;
+}
+
+.badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 3px 7px;
+  border-radius: $border-radius-sm;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+
+  &.best {
+    background: $color-accent;
+    color: $color-white;
+  }
+
+  &.new {
+    background: $color-black;
+    color: $color-white;
+  }
+
+  &.sale {
+    background: $color-red;
+    color: $color-white;
+  }
+}
+
+.wishBtn {
+  @include reset-button;
+  @include flex-center;
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.88);
+  color: $color-gray-400;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-red;
+  }
+}
+
+// ─── 상품 정보 ────────────────────────────────────────
+.info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.name {
+  font-size: $font-size-base;
+  color: $color-gray-800;
+  line-height: 1.5;
+  @include line-clamp(2);
+  margin: 0;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.discount {
+  font-size: $font-size-base;
+  font-weight: 700;
+  color: $color-red;
+}
+
+.price {
+  font-size: $font-size-md;
+  font-weight: 700;
+  color: $color-black;
+}
+
+.originalPrice {
+  font-size: $font-size-sm;
+  color: $color-gray-400;
+  text-decoration: line-through;
+}

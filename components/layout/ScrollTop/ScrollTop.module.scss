@@ -1,0 +1,39 @@
+@use '../../../styles/variables' as *;
+@use '../../../styles/mixins' as *;
+
+.btn {
+  @include reset-button;
+  @include flex-center;
+  position: fixed;
+  right: 20px;
+  bottom: calc($mobile-nav-height + 16px);
+  width: 42px;
+  height: 42px;
+  background: $color-white;
+  border: 1px solid $color-gray-300;
+  border-radius: 50%;
+  color: $color-gray-600;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  z-index: $z-header - 1;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity $transition-base, transform $transition-base,
+    background $transition-fast;
+
+  @include desktop {
+    bottom: 32px;
+    right: 32px;
+  }
+
+  &.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  &:hover {
+    background: $color-gray-100;
+    color: $color-black;
+  }
+}

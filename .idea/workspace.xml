@@ -6,9 +6,26 @@
   <component name="ChangeListManager">
     <list default="true" id="4f6e4ce5-2083-486f-90af-f3b12eb1a58b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/(app)/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(app)/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/(auth)/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/(shop)/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/[...errorPage]/ErrorPageClient.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/[...errorPage]/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/components/shop/ProductCard/ProductCard.module.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/components/shop/ProductCard/ProductCard.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/customer/mainPage/MainPage.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/customer/mainPage/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/stores/cartStore.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/styles/_index.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/styles/_mixins.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(app)/styles/_variables.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/components/layout/header/Navs.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/design/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/design/productList.html" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/layout/header.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/layout/layout.module.scss" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,11 +91,14 @@
     "last_opened_file_path": "C:/Work/shop-fo",
     "list.type.of.created.stylesheet": "SCSS",
     "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.scopes",
+    "npm.Next.js: 서버 측.executor": "Run",
+    "settings.editor.selected.configurable": "settings.javascript.linters.eslint",
     "ts.external.directory.path": "C:\\Work\\shop-fo\\node_modules\\typescript\\lib",
     "vue.rearranger.settings.migration": "true"
   }
@@ -86,12 +106,13 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Work\shop-fo" />
-      <recent name="$PROJECT_DIR$/styles/layout" />
-      <recent name="$PROJECT_DIR$/components/layout/header" />
-      <recent name="$PROJECT_DIR$/app/(app)" />
-      <recent name="D:\Work\shop-fo\design" />
+      <recent name="C:\Work\shop-fo\components\layout" />
+      <recent name="C:\Work\shop-fo\components" />
+      <recent name="C:\Work\shop-fo\app" />
+      <recent name="C:\Work\shop-fo\app\(app)" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Work\shop-fo\app\(app)\components\shop" />
       <recent name="$PROJECT_DIR$/app/(app)" />
       <recent name="D:\Work\shop-fo" />
     </key>
@@ -172,17 +193,6 @@
     <configuration name="Next.js: 클라이언트 측에서 디버그" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
     </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="shop-fo" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="shop-fo" />
-      <option name="filePath" />
-      <method v="2" />
-    </configuration>
     <configuration name="Next.js: 서버 측" type="js.build_tools.npm">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -212,11 +222,19 @@
       <workItem from="1775119307082" duration="1716000" />
       <workItem from="1775121125917" duration="1080000" />
       <workItem from="1775455346191" duration="1185000" />
-      <workItem from="1776545841085" duration="2809000" />
+      <workItem from="1776545841085" duration="5423000" />
+      <workItem from="1776567862217" duration="557000" />
+      <workItem from="1776574825279" duration="925000" />
+      <workItem from="1776575948671" duration="1152000" />
+      <workItem from="1776577378988" duration="2899000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
