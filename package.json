@@ -2,7 +2,7 @@
   "name": "shop-fo",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3000",
     "build:dev": "env-cmd -f .env.development next build",
     "start:dev": "env-cmd -f .env.development next start -H 0.0.0.0 -p 3001",
     "build:prod": "env-cmd -f .env.production next build",
