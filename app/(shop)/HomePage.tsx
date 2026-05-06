@@ -7,6 +7,7 @@ import { useHomePageStore } from '@/stores/useHomePageStore';
 import useFilters from '../../hooks/useFilters';
 import { DisplayRequestProductDetInfoListFilter, DisplayResponseProductInfoForEnum } from '@/generated';
 import publicApi from '@/libs/publicApi';
+import { useCommonStore } from '@/stores/useCommonStore';
 
 const DUMMY_PRODUCTS = [
   { id: 1, name: '레이스 스트라이프 가디건 | 브라운', price: 52000, originalPrice: 68000, badge: 'best' },
@@ -17,17 +18,22 @@ const DUMMY_PRODUCTS = [
   { id: 6, name: '라운드 넥 니트 가디건 | 블루', price: 44000, originalPrice: null, badge: null },
 ];
 
+interface ExtendedDisplayResponseProductInfoForEnum extends DisplayResponseProductInfoForEnum {
+  src?: string
+}
+
 /** 상품관리 - 상품컨텐츠 페이지 */
 const HomePage = () => {
   /** 홈페이지 전역 스토어 - State */
   const [paging, setPaging] = useHomePageStore((s) => [s.paging, s.setPaging]);
+  const [getFileUrl] = useCommonStore((s) => [s.getFileUrl]);
 
   /** filters, lastInfo's filters*/
   const [filters, onChangeFilters, onFiltersReset, dispatch] = useFilters<DisplayRequestProductDetInfoListFilter>({
     lastProdDetId: undefined,
   });
 
-  const [productInfosForEnum, setProductInfosForEnum] = useState<DisplayResponseProductInfoForEnum[]>([]);
+  const [productInfosForEnum, setProductInfosForEnum] = useState<ExtendedDisplayResponseProductInfoForEnum[]>([]);
 
   /** 품목정보 목록 조회 */
   const {
@@ -49,11 +55,25 @@ const HomePage = () => {
     refetchOnMount: 'always',
   });
 
+  const syncProductInfosWithImgSrcs = async (ListForEnum: DisplayResponseProductInfoForEnum[]) => {
+    const extendedDisplayResponseProductInfoListForEnum: ExtendedDisplayResponseProductInfoForEnum[] = [];
+    for (let i = 0; i < ListForEnum.length; i++) {
+      extendedDisplayResponseProductInfoListForEnum.push({
+        ...ListForEnum[i],
+        src: ListForEnum[i].sysFileNm ? await getFileUrl(ListForEnum[i].sysFileNm as string) : undefined,
+      });
+    }
+
+    return extendedDisplayResponseProductInfoListForEnum;
+  };
+
   useEffect(() => {
     if (isProductInfoListForEnumSuccess) {
       const { resultCode, body, resultMessage } = productInfoListForEnum.data;
       if (resultCode === 200) {
-        setProductInfosForEnum(body || []);
+        syncProductInfosWithImgSrcs(body || []).then((ResponseProductInfoListForEnum) => {
+          setProductInfosForEnum(ResponseProductInfoListForEnum);
+        });
       } else {
         console.error(resultMessage);
       }
@@ -102,7 +122,8 @@ const HomePage = () => {
         {productInfosForEnum.map((product, index) => (
           <div key={product.prodDetId} className={styles.card}>
             <div className={styles.imageWrap}>
-              <img src={`https://picsum.photos/seed/${index + 1 + 10}/400/500`} alt={product.prodNm} className={styles.image} />
+              {/*<img src={`https://picsum.photos/seed/${index + 1 + 10}/400/500`} alt={product.prodNm} className={styles.image} />*/}
+              <img src={product.src} alt={product.prodNm} className={styles.image} />
               {/*{product.badge && <span className={`${styles.badge} ${styles[product.badge]}`}>{product.badge.toUpperCase()}</span>}*/}
               <button className={styles.wishBtn} aria-label="찜하기">
                 <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
