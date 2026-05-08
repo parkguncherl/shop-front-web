@@ -128,7 +128,7 @@ const HomePage = () => {
               {product.src ? (
                 <img src={product.src} alt={product.prodNm} className={styles.image} />
               ) : (
-                <img src={'/images/ico_noImage.svg'} alt={product.prodNm} className={`${styles.image} ${styles['defaultImg']}`} />
+                <div title={product.prodNm} className={`${styles.image} ${styles.defaultImg}`} />
               )}
               {/*{product.badge && <span className={`${styles.badge} ${styles[product.badge]}`}>{product.badge.toUpperCase()}</span>}*/}
               <button className={styles.wishBtn} aria-label="찜하기">
