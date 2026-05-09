@@ -8,8 +8,8 @@
     "build:prod": "env-cmd -f .env.production next build",
     "start:prod": "env-cmd -f .env.production next start -H 0.0.0.0 -p 3000",
     "openapi:local": "openapi-generator-cli generate --reserved-words-mappings delete=delete -g typescript-axios -i http://localhost:8080/shop-ap/v3/api-docs/smart -o ./generated -c ./openapi.json --skip-validate-spec",
-    "openapi:prod": "openapi-generator-cli generate --reserved-words-mappings delete=delete -g typescript-axios -i http://172.26.5.177:8080/shop-ap/v3/api-docs/smart -o ./generated -c ./openapi.json --skip-validate-spec && sed -i 's|\"http://172.26.5.177:8080/shop-ap\".replace|(process.env.NEXT_PUBLIC_SMART_API_ENDPOINT || \"http://172.26.5.177:8080/shop-ap\").replace|g' ./generated/base.ts",
-    "openapi:dev": "openapi-generator-cli generate --reserved-words-mappings delete=delete -g typescript-axios -i http://localhost:8080/shop-ap/v3/api-docs/smart -o ./generated -c ./openapi.json --skip-validate-spec && sed -i 's|\"http://172.26.5.177:8080/shop-ap\".replace|(process.env.NEXT_PUBLIC_SMART_API_ENDPOINT || \"http://localhost:8080/shop-ap\").replace|g' ./generated/base.ts"
+    "openapi:dev": "openapi-generator-cli generate --reserved-words-mappings delete=delete -g typescript-axios -i http://172.26.5.177:8080/shop-ap/v3/api-docs/smart -o ./generated -c ./openapi.json --skip-validate-spec",
+    "openapi:prod": "openapi-generator-cli generate --reserved-words-mappings delete=delete -g typescript-axios -i http://172.26.5.177:8080/shop-ap/v3/api-docs/smart -o ./generated -c ./openapi.json --skip-validate-spec"
   },
   "dependencies": {
     "@ant-design/cssinjs": "^1.7.1",
