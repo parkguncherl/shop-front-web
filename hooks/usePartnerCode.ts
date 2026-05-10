@@ -1,14 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import { WebCommonControllerApi } from '@/generated';
-import { apiConfig } from '@/libs/apiConfig';
-
-const webCommonApi = new WebCommonControllerApi(apiConfig);
+import { publicApi } from '@/libs/api';
 
 export function usePartnerCode(partnerUpperCode: string) {
   return useQuery({
     queryKey: ['selectLowerCodeByCodeUpper', partnerUpperCode],
     queryFn: async () => {
-      const res = await webCommonApi.partnerCodeList({ partnerUpperCode: partnerUpperCode });
+      const res = await publicApi.get(`/frontWeb/webCommon/lower/${partnerUpperCode}`);
       return res.data.body;
     },
     enabled: !!partnerUpperCode,

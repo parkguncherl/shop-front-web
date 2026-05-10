@@ -4,10 +4,12 @@ import Footer from '@/components/common/Footer/Footer';
 import MobileNav from '@/components/layout/MobileNav/MobileNav';
 import ScrollTop from '@/components/layout/ScrollTop/ScrollTop';
 import styles from './layout.module.scss';
+import GuestTokenInit from '@/components/common/GuestTokenInit/GuestTokenInit';
 
 export default function ShopLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className={styles.layout}>
+      <GuestTokenInit /> {/* 토큰 useEffect 실행을위한 더미 */}
       <Header />
       <Navigation />
       <main className={styles.main}>{children}</main>
