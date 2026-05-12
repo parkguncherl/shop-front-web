@@ -2,6 +2,7 @@ import { create, StateCreator } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { immer } from 'zustand/middleware/immer';
 import publicApi from '@/libs/publicApi';
+import { FileDet } from '@/generated';
 
 type ModalType = 'OPEN_WEB_MODAL'; // 언젠가 쓰겠지
 
@@ -13,6 +14,7 @@ interface WebCommonState {
 
 interface WebCommonApiState {
   getFileUrl: (fileKey: string) => Promise<string>;
+  selectFileList: (fileId: number) => Promise<FileDet[]>;
 }
 
 const initialStateCreator: StateCreator<WebCommonState & WebCommonApiState, any> = (set, get, api) => {
@@ -47,6 +49,16 @@ const initialStateCreator: StateCreator<WebCommonState & WebCommonApiState, any>
           }
         });
       }
+    },
+    selectFileList: async (fileId: number) => {
+      return publicApi.get(`/frontWeb/webCommon/fileList/${fileId}`).then((res): FileDet[] => {
+        if (res.data.resultCode === 200) {
+          return res.data.body;
+        } else {
+          console.error(res.data);
+          return [];
+        }
+      });
     },
   };
 };
