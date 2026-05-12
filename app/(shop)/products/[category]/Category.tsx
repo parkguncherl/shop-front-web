@@ -1,159 +1,18 @@
 'use client';
 
-import styles from '@/app/(shop)/page.module.scss';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { useHomePageStore } from '@/stores/useHomePageStore';
-import { DisplayRequestProductDetInfoListFilter, DisplayResponseProductInfoForEnum } from '@/generated';
-import publicApi from '@/libs/publicApi';
-import { useCommonStore } from '@/stores/useCommonStore';
-import useFilters from '@/hooks/useFilters';
+import { usePartnerCodeByUk } from '@/hooks/usePartnerCodeByUk';
+import Contents from '@/app/(shop)/products/[category]/Contents';
+import Product from '@/app/(shop)/products/[category]/Product';
 
-
-interface ExtendedDisplayResponseProductInfoForEnum extends DisplayResponseProductInfoForEnum {
-  src?: string;
-}
-
-/** 상품관리 - 상품컨텐츠 페이지 */
+/** 상품 - 카테고리 (조건부) 페이지 */
 const Category = ({ codeCd }: { codeCd: string }) => {
-  /** 홈페이지 전역 스토어 - State */
-  const [paging, setPaging] = useHomePageStore((s) => [s.paging, s.setPaging]);
-  const [getFileUrl] = useCommonStore((s) => [s.getFileUrl]);
 
-  /** filters, lastInfo's filters*/
-  const [filters, onChangeFilters, onFiltersReset, dispatch] = useFilters<DisplayRequestProductDetInfoListFilter>({
-    lastProdId: undefined,
+  const { data: partnerCode, isLoading } = usePartnerCodeByUk({
+    codeUpper: 'P0001',
+    codeCd: codeCd,
   });
 
-  useEffect(() => {
-    console.log('codeCd: ', codeCd);
-  }, [codeCd]);
-
-  const [productInfosForEnum, setProductInfosForEnum] = useState<ExtendedDisplayResponseProductInfoForEnum[]>([]);
-
-  /** 품목정보 목록 조회 */
-  const {
-    data: productInfoListForEnum,
-    isSuccess: isProductInfoListForEnumSuccess,
-    isLoading: isProductInfoListForEnumLoading,
-    refetch: productInfoListForEnumRefetch,
-  } = useQuery({
-    queryKey: ['/frontWeb/display/productInfoListForEnum'],
-    queryFn: () =>
-      // 인증 토큰 불필요
-      publicApi.get('/frontWeb/display/productInfoListForEnum', {
-        params: {
-          //curPage: paging.curPage,
-          pageRowCount: paging.pageRowCount,
-          ...filters,
-        },
-      }),
-    refetchOnMount: 'always',
-  });
-
-  const syncProductInfosWithImgSrcs = async (ListForEnum: DisplayResponseProductInfoForEnum[]) => {
-    const extendedDisplayResponseProductInfoListForEnum: ExtendedDisplayResponseProductInfoForEnum[] = [];
-    for (let i = 0; i < ListForEnum.length; i++) {
-      extendedDisplayResponseProductInfoListForEnum.push({
-        ...ListForEnum[i],
-        src: ListForEnum[i].sysFileNm ? await getFileUrl(ListForEnum[i].sysFileNm as string) : undefined,
-      });
-    }
-
-    return extendedDisplayResponseProductInfoListForEnum;
-  };
-
-  useEffect(() => {
-    if (isProductInfoListForEnumSuccess) {
-      const { resultCode, body, resultMessage } = productInfoListForEnum.data;
-      if (resultCode === 200) {
-        syncProductInfosWithImgSrcs(body.rows || []).then((ResponseProductInfoListForEnum) => {
-          console.log('ResponseProductInfoListForEnum: ', ResponseProductInfoListForEnum);
-          setProductInfosForEnum(ResponseProductInfoListForEnum);
-        });
-      } else {
-        console.error(resultMessage);
-      }
-    }
-  }, [productInfoListForEnum, isProductInfoListForEnumSuccess]);
-
-  return (
-    <div className={styles.page}>
-      {/* 필터 행 */}
-      <div className={styles.filterRow}>
-        <div className={styles.titleWrap}>
-          <span className={styles.pageTitle}>베스트셀러</span>
-          <span className={styles.totalCount}>({productInfosForEnum.length})</span>
-        </div>
-        <button className={styles.sortBtn}>상품정렬 ▽</button>
-      </div>
-
-      {/* 2컬럼 그리드 */}
-      <div className={styles.grid}>
-        {/*{DUMMY_PRODUCTS.map((product) => (*/}
-        {/*  <div key={product.id} className={styles.card}>*/}
-        {/*    <div className={styles.imageWrap}>*/}
-        {/*      <img src={`https://picsum.photos/seed/${product.id + 10}/400/500`} alt={product.name} className={styles.image} />*/}
-        {/*      {product.badge && <span className={`${styles.badge} ${styles[product.badge]}`}>{product.badge.toUpperCase()}</span>}*/}
-        {/*      <button className={styles.wishBtn} aria-label="찜하기">*/}
-        {/*        <svg width="20" height="20" viewBox="0 0 22 22" fill="none">*/}
-        {/*          <path*/}
-        {/*            d="M11 18.5S3 13.5 3 8a5 5 0 019.5-2.2A5 5 0 0119 8c0 5.5-8 10.5-8 10.5z"*/}
-        {/*            stroke="currentColor"*/}
-        {/*            strokeWidth="1.5"*/}
-        {/*            strokeLinecap="round"*/}
-        {/*          />*/}
-        {/*        </svg>*/}
-        {/*      </button>*/}
-        {/*    </div>*/}
-        {/*    <div className={styles.info}>*/}
-        {/*      <p className={styles.name}>{product.name}</p>*/}
-        {/*      <div className={styles.priceRow}>*/}
-        {/*        {product.originalPrice && <span className={styles.discount}>{Math.round((1 - product.price / product.originalPrice) * 100)}%</span>}*/}
-        {/*        <span className={styles.price}>{product.price.toLocaleString()}원</span>*/}
-        {/*        {product.originalPrice && <span className={styles.originalPrice}>{product.originalPrice.toLocaleString()}원</span>}*/}
-        {/*      </div>*/}
-        {/*    </div>*/}
-        {/*  </div>*/}
-        {/*))}*/}
-        {productInfosForEnum.map((product, index) => (
-          <div key={index} className={styles.card}>
-            <div className={styles.imageWrap}>
-              {/*<img src={`https://picsum.photos/seed/${index + 1 + 10}/400/500`} alt={product.prodNm} className={styles.image} />*/}
-              {product.src ? (
-                <img src={product.src} alt={product.prodNm} className={styles.image} />
-              ) : (
-                <div title={product.prodNm} className={`${styles.image} ${styles.defaultImg}`} />
-              )}
-              {/*{product.badge && <span className={`${styles.badge} ${styles[product.badge]}`}>{product.badge.toUpperCase()}</span>}*/}
-              <button className={styles.wishBtn} aria-label="찜하기">
-                <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
-                  <path
-                    d="M11 18.5S3 13.5 3 8a5 5 0 019.5-2.2A5 5 0 0119 8c0 5.5-8 10.5-8 10.5z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className={styles.info}>
-              <p className={styles.name}>{product.prodNm}</p>
-              <div className={styles.priceRow}>
-                {product.discountRate && product.discountRate != 0 && <span className={styles.discount}>{Math.round(product.discountRate || 0)}%</span>}
-                <span className={styles.price}>
-                  {((product.sellAmt || 0) - (product.sellAmt || 0) * Math.round(product.discountRate || 0)).toLocaleString()}원
-                </span>
-                {product.sellAmt && product.discountRate && product.discountRate != 0 && (
-                  <span className={styles.originalPrice}>{product.sellAmt.toLocaleString()}원</span>
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  return !isLoading && partnerCode && (partnerCode?.codeEtc == 'M' ? <Contents /> : <Product />);
 };
 
 export default Category;
