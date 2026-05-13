@@ -74,7 +74,6 @@ const HomePage = () => {
       const { resultCode, body, resultMessage } = productInfoListForEnum.data;
       if (resultCode === 200) {
         syncProductInfosWithImgSrcs(body.rows || []).then((ResponseProductInfoListForEnum) => {
-          console.log('ResponseProductInfoListForEnum: ', ResponseProductInfoListForEnum);
           setProductInfosForEnum(ResponseProductInfoListForEnum);
         });
       } else {
@@ -86,12 +85,14 @@ const HomePage = () => {
   return (
     <div className={styles.page}>
       {/* 필터 행 */}
-      <div className={'filterRow'}>
-        <div className={'titleWrap'}>
-          <span className={'pageTitle'}>베스트셀러</span>
-          <span className={'totalCount'}>({productInfosForEnum.length})</span>
+      <div className={styles.filterRow}>
+        <div>
+          <span className={styles.pageTitle}>베스트셀러</span>
+          <span className={styles.totalCount}>({productInfosForEnum.length})</span>
         </div>
-        <button className={styles.sortBtn}>상품정렬 ▽</button>
+        <div>
+          <button className={styles.sortBtn}>상품정렬 ▽</button>
+        </div>
       </div>
 
       {/* 2컬럼 그리드 */}

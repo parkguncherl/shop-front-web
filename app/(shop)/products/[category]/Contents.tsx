@@ -85,12 +85,14 @@ const Contents = () => {
   return (
     <div className={styles.page}>
       {/* 필터 행 */}
-      <div className={'filterRow'}>
-        <div className={'titleWrap'}>
-          <span className={'pageTitle'}>전체</span>
-          <span className={'totalCount'}>({contentsResponseContentsInfoList.length})</span>
+      <div className={styles.filterRow}>
+        <div>
+          <span className={styles.pageTitle}>전체</span>
+          <span className={styles.totalCount}>({contentsResponseContentsInfoList.length})</span>
         </div>
-        <button className={styles.sortBtn}>상품정렬 ▽</button>
+        <div>
+          <button className={styles.sortBtn}>컨텐츠 정렬 ▽</button>
+        </div>
       </div>
 
       {/* 2컬럼 그리드 */}
