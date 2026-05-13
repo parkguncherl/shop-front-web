@@ -162,7 +162,22 @@
 }
 
 // ─── 컨텐츠 specific  ────────────────────────────────────────
+.subTitle {
+  font-size: $font-size-base;
+  color: $color-gray-500;
+  line-height: 1.4;
+  @include line-clamp(2);
+  margin: 0;
+}
+
 .contentRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.title {
   display: flex;
   align-items: center;
   gap: 5px;

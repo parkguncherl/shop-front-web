@@ -50,7 +50,7 @@ const Contents = () => {
   // 오리지널 newsContents 기반으로 이미지 토큰 제거하고 캐리지 리턴 기준으로 분할
   const contentRenderer = (newsContents?: string) => {
     return newsContents
-      ? (newsContents.length > 100 ? newsContents.substring(0, 320) + '...' : newsContents)
+      ? (newsContents.length > 320 ? newsContents.substring(0, 320) + '...' : newsContents)
           .replace(ContentsRegExps.imgToken, '')
           .split(ContentsRegExps.carriageReturn)
       : [];
@@ -115,16 +115,18 @@ const Contents = () => {
               </button>
             </div>
             <div className={styles.info}>
-              <div className={styles.contentRow}>
-                <span className={styles.content}>
-                  {contentRenderer(product.newsContents).map((line, index, array) => (
-                    <Fragment key={index}>
-                      {line}
-                      {index < array.length - 1 && <br />}
-                    </Fragment>
-                  ))}
-                </span>
-              </div>
+              <p className={styles.name}>{product.newsTitle}</p>
+              <p className={styles.subTitle}>{product.newsSubTitle}</p>
+              {/*<div className={styles.contentRow}>*/}
+              {/*  <span className={styles.content}>*/}
+              {/*    {contentRenderer(product.newsContents).map((line, index, array) => (*/}
+              {/*      <Fragment key={index}>*/}
+              {/*        {line}*/}
+              {/*        {index < array.length - 1 && <br />}*/}
+              {/*      </Fragment>*/}
+              {/*    ))}*/}
+              {/*  </span>*/}
+              {/*</div>*/}
             </div>
           </div>
         ))}
