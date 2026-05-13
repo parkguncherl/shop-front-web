@@ -1,12 +1,12 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import { ContentsRequestContentsInfoListFilter, ContentsResponseContentsInfo } from '@/generated';
 import publicApi from '@/libs/publicApi';
 import useFilters from '@/hooks/useFilters';
 import { useContentsStore } from '@/stores/useContentsStore';
-//import { Contents as ContentsRegExps } from '../../../../libs/const';
+import { Contents as ContentsRegExps } from '../../../../libs/const';
 import { useWebCommonStore } from '@/stores/useWebCommonStore';
 import styles from '@/app/(shop)/page.module.scss';
 
@@ -47,18 +47,14 @@ const Contents = () => {
     refetchOnMount: 'always',
   });
 
-  // todo 텍스트 토큰에서 이미지 sysFileNm 추출 후 조회하여야
-  // const syncContentsInfosWithImgSrcs = async (ListForEnum: DisplayResponseProductInfoForEnum[]) => {
-  //   const extendedContentsResponseContentsInfoList: ExtendedContentsResponseContentsInfo[] = [];
-  //   for (let i = 0; i < ListForEnum.length; i++) {
-  //     extendedContentsResponseContentsInfoList.push({
-  //       ...ListForEnum[i],
-  //       src: ListForEnum[i].sysFileNm ? await getFileUrl(ListForEnum[i].sysFileNm as string) : undefined,
-  //     });
-  //   }
-  //
-  //   return extendedContentsResponseContentsInfoList;
-  // };
+  // 오리지널 newsContents 기반으로 이미지 토큰 제거하고 캐리지 리턴 기준으로 분할
+  const contentRenderer = (newsContents?: string) => {
+    return newsContents
+      ? (newsContents.length > 100 ? newsContents.substring(0, 320) + '...' : newsContents)
+          .replace(ContentsRegExps.imgToken, '')
+          .split(ContentsRegExps.carriageReturn)
+      : [];
+  };
 
   // 컨텐츠 각각에 img src 첨부
   const attachImgSrcForEachContents = async (contentInfos: ContentsResponseContentsInfo[]) => {
@@ -77,8 +73,6 @@ const Contents = () => {
     if (isContentsInfoListSuccess) {
       const { resultCode, body, resultMessage } = contentsInfoList.data;
       if (resultCode === 200) {
-        // const contentInfos: ContentsResponseContentsInfo[] = body.rows || [];
-        // console.log('contentInfos: ', contentInfos);
         attachImgSrcForEachContents(body.rows || []).then((extendedContentsResponseContentsInfoList) => {
           setContentsResponseContentsInfoList(extendedContentsResponseContentsInfoList);
         });
@@ -93,7 +87,7 @@ const Contents = () => {
       {/* 필터 행 */}
       <div className={'filterRow'}>
         <div className={'titleWrap'}>
-          <span className={'pageTitle'}>베스트셀러</span>
+          <span className={'pageTitle'}>전체</span>
           <span className={'totalCount'}>({contentsResponseContentsInfoList.length})</span>
         </div>
         <button className={styles.sortBtn}>상품정렬 ▽</button>
@@ -121,7 +115,16 @@ const Contents = () => {
               </button>
             </div>
             <div className={styles.info}>
-              <p className={styles.name}>{product.newsSubTitle}</p>
+              <div className={styles.contentRow}>
+                <span className={styles.content}>
+                  {contentRenderer(product.newsContents).map((line, index, array) => (
+                    <Fragment key={index}>
+                      {line}
+                      {index < array.length - 1 && <br />}
+                    </Fragment>
+                  ))}
+                </span>
+              </div>
             </div>
           </div>
         ))}
