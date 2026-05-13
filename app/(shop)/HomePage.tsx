@@ -7,8 +7,8 @@ import { useHomePageStore } from '@/stores/useHomePageStore';
 import useFilters from '../../hooks/useFilters';
 import { DisplayRequestProductDetInfoListFilter, DisplayResponseProductInfoForEnum } from '@/generated';
 import publicApi from '@/libs/publicApi';
-import { useCommonStore } from '@/stores/useCommonStore';
-import {useWebCommonStore} from "@/stores/useWebCommonStore";
+//import { useCommonStore } from '@/stores/useCommonStore';
+import { useWebCommonStore } from '@/stores/useWebCommonStore';
 //import noImage from '../../public/images/ico_noImage.svg';
 
 // const DUMMY_PRODUCTS = [
@@ -86,10 +86,10 @@ const HomePage = () => {
   return (
     <div className={styles.page}>
       {/* 필터 행 */}
-      <div className={styles.filterRow}>
-        <div className={styles.titleWrap}>
-          <span className={styles.pageTitle}>베스트셀러</span>
-          <span className={styles.totalCount}>({productInfosForEnum.length})</span>
+      <div className={'filterRow'}>
+        <div className={'titleWrap'}>
+          <span className={'pageTitle'}>베스트셀러</span>
+          <span className={'totalCount'}>({productInfosForEnum.length})</span>
         </div>
         <button className={styles.sortBtn}>상품정렬 ▽</button>
       </div>
