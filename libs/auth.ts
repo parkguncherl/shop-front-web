@@ -2,7 +2,7 @@ import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import axios from 'axios';
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8080';
+const BASE_URL = process.env.NEXT_PUBLIC_SHOP_API_ENDPOINT ?? 'http://localhost:8080/shop-ap';
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -14,17 +14,20 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         try {
-          const { data } = await axios.post(`${BASE_URL}/shop-fo/auth/login`, {
+          const { data } = await axios.post(`${BASE_URL}/auth/login`, {
             email: credentials?.email,
             password: credentials?.password,
           });
-          if (data?.accessToken) {
+
+          if (data?.body?.accessToken) {
             return {
-              id: data.userId,
-              email: data.email,
-              name: data.name,
-              accessToken: data.accessToken,
-              refreshToken: data.refreshToken,
+              id: data.body.userId,
+              email: data.body.email,
+              name: data.body.name,
+              token: {
+                accessToken: data.body.accessToken, // ← token 객체로 변경
+                refreshToken: data.body.refreshToken,
+              },
             };
           }
           return null;
@@ -38,15 +41,12 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.accessToken = (user as any).accessToken;
-        token.refreshToken = (user as any).refreshToken;
-        token.userId = (user as any).id;
+        token.token = (user as any).token;
       }
       return token;
     },
     async session({ session, token }) {
-      session.accessToken = token.accessToken as string;
-      session.userId = token.userId as string;
+      session.token = token.token as any;
       return session;
     },
   },
