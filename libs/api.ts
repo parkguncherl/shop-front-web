@@ -10,6 +10,7 @@ const createInstance = () => {
   const instance = axios.create({
     baseURL: BASE_URL,
     timeout: 10000,
+    withCredentials: true, // ← 쿠키 자동 첨부
     headers: { 'Content-Type': 'application/json' },
   });
 

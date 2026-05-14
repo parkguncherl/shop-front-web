@@ -19,14 +19,12 @@ function NavigationInner() {
     setMounted(true);
   }, []);
 
-
   // const isActive = (href: string) => {
   //   if (href === '/products' && !currentCategory) return true;
   //   const categoryMatch = href.match(/category=(\w+)/);
   //   if (categoryMatch) return currentCategory === categoryMatch[1];
   //   return false;
   // };
-
 
   const skeletons = Array.from({ length: SKELETON_COUNT }, (_, i) => <span key={i} className={styles.skeleton} />);
 
