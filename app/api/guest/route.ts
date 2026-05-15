@@ -28,10 +28,6 @@ export async function POST(request: NextRequest) {
         Referer: refererUrl,
         'X-Real-IP': clientIp,
       },
-      body: JSON.stringify({
-        refererUrl: document.referrer, // ← 이전 URL (브라우저만 앎)
-        currentUrl: window.location.href, // ← 현재 URL
-      }),
     });
 
     const data = await res.json();
