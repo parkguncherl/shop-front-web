@@ -15,9 +15,15 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json().catch(() => ({}));
-  const refererUrl = body.refererUrl ?? ''; // ← document.referrer
   const userAgent = request.headers.get('user-agent') ?? '';
   const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? request.headers.get('x-real-ip') ?? '';
+  const refererUrl = body.refererUrl ?? '';
+  const currentUrl = body.currentUrl ?? '';
+  const utmSource = body.utmSource ?? '';
+  const utmMedium = body.utmMedium ?? '';
+  const utmCampaign = body.utmCampaign ?? '';
+  const utmContent = body.utmContent ?? '';
+  const fbclid = body.fbclid ?? '';
 
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_SHOP_API_ENDPOINT}/frontWebAuth/guest`, {
@@ -27,6 +33,13 @@ export async function POST(request: NextRequest) {
         'User-Agent': userAgent,
         Referer: refererUrl,
         'X-Real-IP': clientIp,
+        'X-Referer-URL': refererUrl,
+        'X-Current-URL': currentUrl,
+        'X-UTM-Source': utmSource,
+        'X-UTM-Medium': utmMedium,
+        'X-UTM-Campaign': utmCampaign,
+        'X-UTM-Content': utmContent,
+        'X-Fbclid': fbclid, // ← Facebook 클릭 ID
       },
     });
 
