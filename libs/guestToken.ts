@@ -14,6 +14,8 @@ export const initGuestToken = async () => {
         utmSource: new URLSearchParams(window.location.search).get('utm_source') ?? '',
         utmMedium: new URLSearchParams(window.location.search).get('utm_medium') ?? '',
         utmCampaign: new URLSearchParams(window.location.search).get('utm_campaign') ?? '',
+        utmContent: new URLSearchParams(window.location.search).get('utm_content') ?? '',
+        fbclid: new URLSearchParams(window.location.search).get('fbclid') ?? '',
       }),
     });
 
