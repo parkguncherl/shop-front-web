@@ -9,6 +9,7 @@ import { DisplayRequestProductDetInfoListFilter, DisplayResponseProductInfoForEn
 import publicApi from '@/libs/publicApi';
 //import { useCommonStore } from '@/stores/useCommonStore';
 import { useWebCommonStore } from '@/stores/useWebCommonStore';
+import { usePageViewLog } from '@/hooks/usePageViewLog';
 //import noImage from '../../public/images/ico_noImage.svg';
 
 // const DUMMY_PRODUCTS = [
@@ -26,6 +27,15 @@ interface ExtendedDisplayResponseProductInfoForEnum extends DisplayResponseProdu
 
 /** 상품관리 - 상품컨텐츠 페이지 */
 const HomePage = () => {
+  usePageViewLog({ pageType: 'main' });
+
+  /*
+  usePageViewLog({
+    pageType: 'product',
+    productId: Number(params.id),
+  });
+ */
+
   /** 홈페이지 전역 스토어 - State */
   const [paging, setPaging] = useHomePageStore((s) => [s.paging, s.setPaging]);
   const [getFileUrl] = useWebCommonStore((s) => [s.getFileUrl]);
