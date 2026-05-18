@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
   const fbclid = body.fbclid ?? '';
 
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SHOP_API_ENDPOINT}/frontWebAuth/guest`, {
+    const res = await fetch(`${process.env.NEXT_SERVER_API_ENDPOINT}/frontWebAuth/guest`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

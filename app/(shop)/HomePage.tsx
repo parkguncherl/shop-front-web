@@ -47,6 +47,16 @@ const HomePage = () => {
 
   const [productInfosForEnum, setProductInfosForEnum] = useState<ExtendedDisplayResponseProductInfoForEnum[]>([]);
 
+  const [guestReady, setGuestReady] = useState(false);
+
+  useEffect(() => {
+    // /api/guest 호출 완료 후 true
+    fetch('/api/guest', {
+      method: 'POST',
+      credentials: 'include',
+    }).then(() => setGuestReady(true));
+  }, []);
+
   /** 품목정보 목록 조회 */
   const {
     data: productInfoListForEnum,
@@ -65,6 +75,7 @@ const HomePage = () => {
         },
       }),
     refetchOnMount: 'always',
+    enabled: guestReady, // ← Guest Token 발급 후에만 호출
   });
 
   const syncProductInfosWithImgSrcs = async (ListForEnum: DisplayResponseProductInfoForEnum[]) => {

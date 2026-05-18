@@ -4,28 +4,31 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 });
 const withAntdLess = require('next-plugin-antd-less');
 
-/** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  // swcMinify: true,
   compiler: {
     styledComponents: true,
   },
-
   typescript: {
     ignoreBuildErrors: true,
   },
   productionBrowserSourceMaps: true,
+
+  // ─── 프록시 추가 ──────────────────────────────────
+  async rewrites() {
+    return [
+      {
+        source: '/shop-ap/:path*',
+        destination: `${process.env.NEXT_SERVER_API_ENDPOINT}/:path*`,
+      },
+    ];
+  },
+
   async headers() {
     return [
       {
         source: '/api/auth/:slug',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'no-store, max-age=0',
-          },
-        ],
+        headers: [{ key: 'Cache-Control', value: 'no-store, max-age=0' }],
       },
     ];
   },
