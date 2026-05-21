@@ -23,7 +23,7 @@ const initialStateCreator: StateCreator<ProductContentListState> = (set, get, ap
   return {
     paging: {
       curPage: 1,
-      pageRowCount: 50,
+      pageRowCount: 4,
     },
     setPaging: (pageObject) => {
       set((state) => ({

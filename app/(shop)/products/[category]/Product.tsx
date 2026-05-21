@@ -2,16 +2,65 @@
 
 import styles from '@/app/(shop)/page.module.scss';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
-import { ProductRequestProductInfoListFilter, ProductResponseProductInfo } from '@/generated';
+import { useEffect, useReducer } from 'react';
+import { DisplayResponseProductInfoForEnum, ProductRequestProductInfoListFilter, ProductResponseProductInfo } from '@/generated';
 import publicApi from '@/libs/publicApi';
 import useFilters from '@/hooks/useFilters';
 import { useProductStore } from '@/stores/useProductStore';
-//import { Contents as ContentsRegExps } from '@/libs/const';
 import { useWebCommonStore } from '@/stores/useWebCommonStore';
 
 interface ExtendedProductResponseProductInfo extends ProductResponseProductInfo {
   src?: string;
+}
+
+interface ProductInfoState {
+  productInfoList: ExtendedProductResponseProductInfo[];
+  lastInfo: DisplayResponseProductInfoForEnum | undefined;
+  endOfThePageHasBeenReached: boolean;
+}
+type ProductInfoAction =
+  | {
+      type: 'extend';
+      payload: {
+        infosForExtend: ExtendedProductResponseProductInfo[];
+      };
+    }
+  | {
+      type: 'initialize';
+      payload: {
+        infosForInitialize: ExtendedProductResponseProductInfo[];
+      };
+    }
+  | {
+      type: 'sync_lastInfo';
+      payload: {
+        lastInfo: ProductResponseProductInfo;
+      };
+    };
+function ProductInfosOfHomePageForEnumReducerFn(state: ProductInfoState, action: ProductInfoAction): ProductInfoState {
+  if (action.type == 'extend') {
+    return {
+      ...state,
+      productInfoList: state.productInfoList.concat(action.payload.infosForExtend), // concat 은 새 배열을 반환하니 불변성 보장
+    };
+  }
+
+  if (action.type == 'initialize') {
+    return {
+      ...state,
+      productInfoList: action.payload.infosForInitialize,
+    };
+  }
+
+  if (action.type == 'sync_lastInfo') {
+    return {
+      ...state,
+      lastInfo: action.payload.lastInfo,
+      endOfThePageHasBeenReached: action.payload.lastInfo == undefined,
+    };
+  }
+
+  return state;
 }
 
 /** 상품 - 카테고리 (조건부) 페이지 */
@@ -21,30 +70,43 @@ const Product = () => {
   const [getFileUrl] = useWebCommonStore((s) => [s.getFileUrl]);
 
   /** filters, lastInfo's filters*/
-  const [filters, onChangeFilters, onFiltersReset, dispatch] = useFilters<ProductRequestProductInfoListFilter>({
+  const [lastInfoFilters, onChangeLastInfoFilters, onLastInfoFiltersReset] = useFilters<ProductRequestProductInfoListFilter>({
     lastId: undefined,
   });
 
-  const [productResponseProductInfoList, setProductResponseProductInfoList] = useState<ExtendedProductResponseProductInfo[]>([]);
+  /** 이하 지역 상태는 반드시 배열의 불변성을 유지할 것 */
+  const [productInfoListStatus, dispatchProductInfoListStatus] = useReducer(ProductInfosOfHomePageForEnumReducerFn, {
+    productInfoList: [],
+    lastInfo: undefined,
+    endOfThePageHasBeenReached: false,
+  });
+
+  /** 페이지 언마운트 시점 초기화 영역 */
+  useEffect(() => {
+    return () => {
+      onLastInfoFiltersReset();
+    };
+  }, [onLastInfoFiltersReset]);
 
   /** 품목정보 목록 조회 */
   const {
     data: productInfoList,
     isSuccess: isProductInfoListSuccess,
-    isLoading: isProductInfoListLoading,
-    refetch: productInfoListRefetch,
+    // isLoading: isProductInfoListLoading,
+    // refetch: productInfoListRefetch,
   } = useQuery({
-    queryKey: ['/frontWeb/product/productInfoListPaging'],
+    queryKey: ['/frontWeb/product/productInfoListPaging', lastInfoFilters.lastId],
     queryFn: () =>
       // 인증 토큰 불필요
       publicApi.get('/frontWeb/product/productInfoListPaging', {
         params: {
-          curPage: pagingOnProduct.curPage,
+          //curPage: pagingOnProduct.curPage,
           pageRowCount: pagingOnProduct.pageRowCount,
-          ...filters,
+          ...lastInfoFilters,
         },
       }),
     refetchOnMount: 'always',
+    gcTime: 0, // 데이터가 비활성화되는 즉시(언마운트) 가비지 컬렉션(삭제) 수행
   });
 
   // 컨텐츠 각각에 img src 첨부
@@ -64,8 +126,38 @@ const Product = () => {
     if (isProductInfoListSuccess) {
       const { resultCode, body, resultMessage } = productInfoList.data;
       if (resultCode === 200) {
-        attachImgSrcForEachContents(body.rows || []).then((extendedContentsResponseContentsInfoList) => {
-          setProductResponseProductInfoList(extendedContentsResponseContentsInfoList);
+        const productResponseProductInfoList = body.rows || [];
+        const productResponseProductInfoListForAttachment: ProductResponseProductInfo[] = pagingOnProduct.pageRowCount
+          ? productResponseProductInfoList.slice(0, pagingOnProduct.pageRowCount)
+          : productResponseProductInfoList;
+
+        if (pagingOnProduct.pageRowCount) {
+          dispatchProductInfoListStatus({
+            type: 'sync_lastInfo',
+            payload: {
+              lastInfo: productResponseProductInfoList[pagingOnProduct.pageRowCount],
+            },
+          });
+        }
+
+        attachImgSrcForEachContents(productResponseProductInfoListForAttachment).then((extendedContentsResponseContentsInfoList) => {
+          if (lastInfoFilters.lastId || productInfoListStatus.productInfoList.length == 0) {
+            // lastInfoFilters 하에서 lastId가 정의되었거나 contentsInfoListStatus.contentsInfoList 가 빈 배열인(초기화 후 최초 시점 동기화) 경우
+            dispatchProductInfoListStatus({
+              type: 'extend',
+              payload: {
+                infosForExtend: extendedContentsResponseContentsInfoList,
+              },
+            });
+          } else {
+            // 그 이외에는 기존 확장된 배열을 payload 이하 전달된 배열로 교체토록 dispatch
+            dispatchProductInfoListStatus({
+              type: 'initialize',
+              payload: {
+                infosForInitialize: extendedContentsResponseContentsInfoList,
+              },
+            });
+          }
         });
       } else {
         console.error(resultMessage);
@@ -79,7 +171,7 @@ const Product = () => {
       <div className={styles.filterRow}>
         <div>
           <span className={styles.pageTitle}>전체</span>
-          <span className={styles.totalCount}>({productResponseProductInfoList.length})</span>
+          <span className={styles.totalCount}>({productInfoListStatus.productInfoList.length})</span>
         </div>
         <div>
           <button className={styles.sortBtn}>상품정렬 ▽</button>
@@ -88,7 +180,7 @@ const Product = () => {
 
       {/* 2컬럼 그리드 */}
       <div className={styles.grid}>
-        {productResponseProductInfoList.map((product, index) => (
+        {productInfoListStatus.productInfoList.map((product, index) => (
           <div key={index} className={styles.card}>
             <div className={styles.imageWrap}>
               {product.src ? (
@@ -121,6 +213,18 @@ const Product = () => {
             </div>
           </div>
         ))}
+      </div>
+      <div className={styles.paging}>
+        <button
+          className={styles.pagingBtn}
+          disabled={productInfoListStatus.endOfThePageHasBeenReached}
+          onClick={() => {
+            // 클릭 시점에 lastId 동기화하여 refetch 촉발
+            onChangeLastInfoFilters('lastId', productInfoListStatus.productInfoList[productInfoListStatus.productInfoList.length - 1].id);
+          }}
+        >
+          {productInfoListStatus.endOfThePageHasBeenReached ? '사용할 수 없음' : '눌러서 다음 페이지로 확장'}
+        </button>
       </div>
     </div>
   );

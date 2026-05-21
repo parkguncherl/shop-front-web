@@ -6,7 +6,6 @@ import { ContentsRequestContentsInfoListFilter, ContentsResponseContentsInfo } f
 import publicApi from '@/libs/publicApi';
 import useFilters from '@/hooks/useFilters';
 import { useContentsStore } from '@/stores/useContentsStore';
-//import { Contents as ContentsRegExps } from '../../../../libs/const';
 import { useWebCommonStore } from '@/stores/useWebCommonStore';
 import styles from '@/app/(shop)/page.module.scss';
 
@@ -83,14 +82,19 @@ const Contents = () => {
     endOfThePageHasBeenReached: false,
   });
 
-  //const [endOfThePageHasBeenReached, setEndOfThePageHasBeenReached] = useState(false);
+  /** 페이지 언마운트 시점 초기화 영역 */
+  useEffect(() => {
+    return () => {
+      onLastInfoFiltersReset();
+    };
+  }, [onLastInfoFiltersReset]);
 
   /** 품목정보 목록 조회 */
   const {
     data: contentsInfoList,
     isSuccess: isContentsInfoListSuccess,
-    isLoading: isContentsInfoListLoading,
-    refetch: contentsInfoListRefetch,
+    // isLoading: isContentsInfoListLoading,
+    // refetch: contentsInfoListRefetch,
   } = useQuery({
     queryKey: ['/frontWeb/contents/contentsInfoListPaging', lastInfoFilters.lastId],
     queryFn: () =>
@@ -103,6 +107,7 @@ const Contents = () => {
         },
       }),
     refetchOnMount: 'always',
+    gcTime: 0, // 데이터가 비활성화되는 즉시(언마운트) 가비지 컬렉션(삭제) 수행
   });
 
   // 오리지널 newsContents 기반으로 이미지 토큰 제거하고 캐리지 리턴 기준으로 분할
