@@ -10,6 +10,7 @@ import { useWebCommonStore } from '@/stores/useWebCommonStore';
 import styles from '@/app/(shop)/page.module.scss';
 import { useBlockStore } from '@/stores/useBlockStore';
 import useUpdateEffect from '@/customHook/useUpdateEffect';
+import Island from '@/components/common/Animated/Island';
 
 interface ExtendedContentsResponseContentsInfo extends ContentsResponseContentsInfo {
   src?: string;
@@ -183,10 +184,28 @@ const Contents = () => {
     <div className={styles.page}>
       {/* 필터 행 */}
       <div className={styles.filterRow}>
-        <div>
-          <span className={styles.pageTitle}>전체</span>
-          <span className={styles.totalCount}>({contentsInfoListStatus.contentsInfoList.length})</span>
-        </div>
+        {/*{!isBlocked ? (*/}
+        {/*  <div>*/}
+        {/*    <span className={styles.pageTitle}>전체</span>*/}
+        {/*    <span className={styles.totalCount}>({contentsInfoListStatus.contentsInfoList.length})</span>*/}
+        {/*  </div>*/}
+        {/*) : (*/}
+        {/*  <div>*/}
+        {/*    <span>동기화 시점까지 {timeLeft} 초</span>*/}
+        {/*  </div>*/}
+        {/*)}*/}
+        <Island spread={isBlocked}>
+          {isBlocked ? (
+            <div>
+              <span>동기화 시점까지 {timeLeft} 초</span>
+            </div>
+          ) : (
+            <div>
+              <span className={styles.pageTitle}>전체</span>
+              <span className={styles.totalCount}>({contentsInfoListStatus.contentsInfoList.length})</span>
+            </div>
+          )}
+        </Island>
         <div>
           <button className={styles.sortBtn}>컨텐츠 정렬 ▽</button>
         </div>
