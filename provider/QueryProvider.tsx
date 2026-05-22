@@ -27,7 +27,7 @@ export default function QueryProvider({ children }: { children: React.ReactNode 
   const [startBlock] = useBlockStore((s) => [s.startBlock]);
 
   // 내부 상수
-  const delaySeconds = 10; // 백앤드는 minuteKey, 즉 분 단위로 한도를 검증하므로 60초(1분)의 throttling 을 거치는 것이 적절
+  const delaySeconds = 5; // 백앤드는 minuteKey, 즉 분 단위로 한도를 검증하므로 60초(1분)의 throttling 을 거치는 것이 적절
 
   // state 대신 메모이징
   const queryClient = useMemo(

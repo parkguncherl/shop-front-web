@@ -11,6 +11,7 @@ import styles from '@/app/(shop)/page.module.scss';
 import { useBlockStore } from '@/stores/useBlockStore';
 import useUpdateEffect from '@/customHook/useUpdateEffect';
 import Island from '@/components/common/Animated/Island';
+import UnderIsland from '@/components/common/wrapper/UnderIsland';
 
 interface ExtendedContentsResponseContentsInfo extends ContentsResponseContentsInfo {
   src?: string;
@@ -182,85 +183,87 @@ const Contents = () => {
 
   return (
     <div className={styles.page}>
-      {/* 필터 행 */}
-      <div className={styles.filterRow}>
-        {/*{!isBlocked ? (*/}
-        {/*  <div>*/}
-        {/*    <span className={styles.pageTitle}>전체</span>*/}
-        {/*    <span className={styles.totalCount}>({contentsInfoListStatus.contentsInfoList.length})</span>*/}
-        {/*  </div>*/}
-        {/*) : (*/}
-        {/*  <div>*/}
-        {/*    <span>동기화 시점까지 {timeLeft} 초</span>*/}
-        {/*  </div>*/}
-        {/*)}*/}
-        <Island spread={isBlocked}>
-          {isBlocked ? (
-            <div>
-              <span>동기화 시점까지 {timeLeft} 초</span>
-            </div>
-          ) : (
+      <UnderIsland spread={isBlocked}>
+        {/* 필터 행 */}
+        <div className={styles.filterRow}>
+          {!isBlocked ? (
             <div>
               <span className={styles.pageTitle}>전체</span>
               <span className={styles.totalCount}>({contentsInfoListStatus.contentsInfoList.length})</span>
             </div>
+          ) : (
+            <div>
+              <span>동기화 시점까지 {timeLeft} 초</span>
+            </div>
           )}
-        </Island>
-        <div>
-          <button className={styles.sortBtn}>컨텐츠 정렬 ▽</button>
-        </div>
-      </div>
-
-      {/* 2컬럼 그리드 */}
-      <div className={styles.grid}>
-        {contentsInfoListStatus.contentsInfoList.map((product, index) => (
-          <div key={index} className={styles.card}>
-            <div className={styles.imageWrap}>
-              {product.src ? (
-                <img src={product.src} alt={product.newsSubTitle} className={styles.image} />
-              ) : (
-                <div title={product.newsSubTitle} className={`${styles.image} ${styles.defaultImg}`} />
-              )}
-              <button className={styles.wishBtn} aria-label="찜하기">
-                <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
-                  <path
-                    d="M11 18.5S3 13.5 3 8a5 5 0 019.5-2.2A5 5 0 0119 8c0 5.5-8 10.5-8 10.5z"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </button>
-            </div>
-            <div className={styles.info}>
-              <p className={styles.name}>{product.newsTitle}</p>
-              <p className={styles.subTitle}>{product.newsSubTitle}</p>
-              {/*<div className={styles.contentRow}>*/}
-              {/*  <span className={styles.content}>*/}
-              {/*    {contentRenderer(product.newsContents).map((line, index, array) => (*/}
-              {/*      <Fragment key={index}>*/}
-              {/*        {line}*/}
-              {/*        {index < array.length - 1 && <br />}*/}
-              {/*      </Fragment>*/}
-              {/*    ))}*/}
-              {/*  </span>*/}
-              {/*</div>*/}
-            </div>
+          {/*<Island spread={isBlocked}>*/}
+          {/*  {isBlocked ? (*/}
+          {/*    <div>*/}
+          {/*      <span>동기화 시점까지 {timeLeft} 초</span>*/}
+          {/*    </div>*/}
+          {/*  ) : (*/}
+          {/*    <div>*/}
+          {/*      <span className={styles.pageTitle}>전체</span>*/}
+          {/*      <span className={styles.totalCount}>({contentsInfoListStatus.contentsInfoList.length})</span>*/}
+          {/*    </div>*/}
+          {/*  )}*/}
+          {/*</Island>*/}
+          <div>
+            <button className={styles.sortBtn}>컨텐츠 정렬 ▽</button>
           </div>
-        ))}
-      </div>
-      <div className={styles.paging}>
-        <button
-          className={styles.pagingBtn}
-          disabled={contentsInfoListStatus.endOfThePageHasBeenReached}
-          onClick={() => {
-            // 클릭 시점에 lastId 동기화하여 refetch 촉발
-            onChangeLastInfoFilters('lastId', contentsInfoListStatus.contentsInfoList[contentsInfoListStatus.contentsInfoList.length - 1].id);
-          }}
-        >
-          {contentsInfoListStatus.endOfThePageHasBeenReached ? '사용할 수 없음' : '눌러서 다음 페이지로 확장'}
-        </button>
-      </div>
+        </div>
+
+        {/* 2컬럼 그리드 */}
+        <div className={styles.grid}>
+          {contentsInfoListStatus.contentsInfoList.map((product, index) => (
+            <div key={index} className={styles.card}>
+              <div className={styles.imageWrap}>
+                {product.src ? (
+                  <img src={product.src} alt={product.newsSubTitle} className={styles.image} />
+                ) : (
+                  <div title={product.newsSubTitle} className={`${styles.image} ${styles.defaultImg}`} />
+                )}
+                <button className={styles.wishBtn} aria-label="찜하기">
+                  <svg width="20" height="20" viewBox="0 0 22 22" fill="none">
+                    <path
+                      d="M11 18.5S3 13.5 3 8a5 5 0 019.5-2.2A5 5 0 0119 8c0 5.5-8 10.5-8 10.5z"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+              <div className={styles.info}>
+                <p className={styles.name}>{product.newsTitle}</p>
+                <p className={styles.subTitle}>{product.newsSubTitle}</p>
+                {/*<div className={styles.contentRow}>*/}
+                {/*  <span className={styles.content}>*/}
+                {/*    {contentRenderer(product.newsContents).map((line, index, array) => (*/}
+                {/*      <Fragment key={index}>*/}
+                {/*        {line}*/}
+                {/*        {index < array.length - 1 && <br />}*/}
+                {/*      </Fragment>*/}
+                {/*    ))}*/}
+                {/*  </span>*/}
+                {/*</div>*/}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className={styles.paging}>
+          <button
+            className={styles.pagingBtn}
+            disabled={contentsInfoListStatus.endOfThePageHasBeenReached}
+            onClick={() => {
+              // 클릭 시점에 lastId 동기화하여 refetch 촉발
+              onChangeLastInfoFilters('lastId', contentsInfoListStatus.contentsInfoList[contentsInfoListStatus.contentsInfoList.length - 1].id);
+            }}
+          >
+            {contentsInfoListStatus.endOfThePageHasBeenReached ? '사용할 수 없음' : '눌러서 다음 페이지로 확장'}
+          </button>
+        </div>
+      </UnderIsland>
     </div>
   );
 };
