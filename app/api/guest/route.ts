@@ -16,9 +16,17 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ guestToken: existingToken.value });
   }
 
+  const xForwardedFor = request.headers.get('x-forwarded-for');
+  const xRealIp = request.headers.get('x-real-ip');
+
+  console.log('x-forwarded-for ===>', xForwardedFor);
+  console.log('x-real-ip ===>', xRealIp);
+
   const body = await request.json().catch(() => ({}));
   const userAgent = request.headers.get('user-agent') ?? '';
-  const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? request.headers.get('x-real-ip') ?? '';
+
+  const clientIp = request.headers.get('x-real-ip') ?? request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? '';
+
   const refererUrl = body.refererUrl ?? '';
   const currentUrl = body.currentUrl ?? '';
   const utmSource = body.utmSource ?? '';
