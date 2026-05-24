@@ -7,6 +7,8 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  console.log('NEXT_SERVER_API_ENDPOINT ===>', process.env.NEXT_SERVER_API_ENDPOINT); // ← 추가
+
   const cookieStore = await cookies();
   const existingToken = cookieStore.get(COOKIE_KEYS.GUEST_TOKEN);
 
@@ -26,7 +28,10 @@ export async function POST(request: NextRequest) {
   const fbclid = body.fbclid ?? '';
 
   try {
-    const res = await fetch(`${process.env.NEXT_SERVER_API_ENDPOINT}/frontWebAuth/guest`, {
+    const backendUrl = `${process.env.NEXT_SERVER_API_ENDPOINT}/frontWebAuth/guest`;
+    console.log('백엔드 URL ===>', backendUrl); // ← 추가
+
+    const res = await fetch(backendUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,11 +48,14 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    console.log('백엔드 status ===>', res.status); // ← 추가
+
     const data = await res.json();
     console.log('백엔드 응답 ===>', data);
     const guestToken = data.body?.guestToken;
 
     if (!guestToken) {
+      console.error('guestToken 없음 ===>', data); // ← 추가
       return NextResponse.json({ error: 'Failed' }, { status: 500 });
     }
 
@@ -62,7 +70,7 @@ export async function POST(request: NextRequest) {
 
     return response;
   } catch (e) {
-    console.error('Guest Token 발급 실패', e);
+    console.error('fetch 오류 ===>', e); // ← 추가
     return NextResponse.json({ error: 'Failed' }, { status: 500 });
   }
 }
