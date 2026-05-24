@@ -8,6 +8,11 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   console.log('NEXT_PUBLIC_SHOP_API_ENDPOINT ===>', process.env.NEXT_PUBLIC_SHOP_API_ENDPOINT); // ← 추가
+  const xForwardedFor = request.headers.get('x-forwarded-for');
+  const xRealIp = request.headers.get('x-real-ip');
+
+  console.log('x-forwarded-for ===>', xForwardedFor);
+  console.log('x-real-ip ===>', xRealIp);
 
   const cookieStore = await cookies();
   const existingToken = cookieStore.get(COOKIE_KEYS.GUEST_TOKEN);
@@ -15,12 +20,6 @@ export async function POST(request: NextRequest) {
   if (existingToken) {
     return NextResponse.json({ guestToken: existingToken.value });
   }
-
-  const xForwardedFor = request.headers.get('x-forwarded-for');
-  const xRealIp = request.headers.get('x-real-ip');
-
-  console.log('x-forwarded-for ===>', xForwardedFor);
-  console.log('x-real-ip ===>', xRealIp);
 
   const body = await request.json().catch(() => ({}));
   const userAgent = request.headers.get('user-agent') ?? '';
