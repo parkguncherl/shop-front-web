@@ -7,7 +7,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  console.log('NEXT_SERVER_API_ENDPOINT ===>', process.env.NEXT_SERVER_API_ENDPOINT); // ← 추가
+  console.log('NEXT_PUBLIC_SHOP_API_ENDPOINT ===>', process.env.NEXT_PUBLIC_SHOP_API_ENDPOINT); // ← 추가
 
   const cookieStore = await cookies();
   const existingToken = cookieStore.get(COOKIE_KEYS.GUEST_TOKEN);
@@ -28,7 +28,7 @@ export async function POST(request: NextRequest) {
   const fbclid = body.fbclid ?? '';
 
   try {
-    const backendUrl = `${process.env.NEXT_SERVER_API_ENDPOINT}/frontWebAuth/guest`;
+    const backendUrl = `${process.env.NEXT_PUBLIC_SHOP_API_ENDPOINT}/frontWebAuth/guest`;
     console.log('백엔드 URL ===>', backendUrl); // ← 추가
 
     const res = await fetch(backendUrl, {
