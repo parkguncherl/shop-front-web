@@ -67,6 +67,27 @@ function ContentsInfosManagementReducerFn(state: ContentsInfosState, action: Con
   return state;
 }
 
+const timerStyle: React.CSSProperties = {
+  // display: 'inline-flex',
+  // alignItems: 'center',
+  // padding: '8px 16px',
+  // backgroundColor: '#f1f5f9', // 연한 그레이 배경
+  // borderRadius: '20px', // 둥근 캡슐 모양
+  color: '#81a4f4', // 딥 네이비/블랙
+  fontSize: '15px',
+  fontWeight: '600',
+  fontFamily: 'Inter, system-ui, sans-serif',
+  //boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+};
+
+const numberStyle: React.CSSProperties = {
+  color: '#eb2571', // 강조할 파란색
+  fontVariantNumeric: 'tabular-nums', // 숫자 폭 고정 (중요!)
+  margin: '0 4px',
+  fontSize: '18px',
+  fontWeight: '700',
+};
+
 /** 상품 - 카테고리 (조건부) 페이지 */
 const Contents = () => {
   /** 홈페이지 전역 스토어 - State */
@@ -183,31 +204,32 @@ const Contents = () => {
 
   return (
     <div className={styles.page}>
-      <UnderIsland spread={isBlocked}>
+      <UnderIsland
+        spread={isBlocked}
+        content={
+          <div>
+            <span style={timerStyle}>
+              동기화 시점까지 <span style={numberStyle}>{timeLeft}</span>초
+            </span>
+          </div>
+        }
+      >
         {/* 필터 행 */}
         <div className={styles.filterRow}>
-          {!isBlocked ? (
-            <div>
-              <span className={styles.pageTitle}>전체</span>
-              <span className={styles.totalCount}>({contentsInfoListStatus.contentsInfoList.length})</span>
-            </div>
-          ) : (
-            <div>
-              <span>동기화 시점까지 {timeLeft} 초</span>
-            </div>
-          )}
-          {/*<Island spread={isBlocked}>*/}
-          {/*  {isBlocked ? (*/}
-          {/*    <div>*/}
-          {/*      <span>동기화 시점까지 {timeLeft} 초</span>*/}
-          {/*    </div>*/}
-          {/*  ) : (*/}
-          {/*    <div>*/}
-          {/*      <span className={styles.pageTitle}>전체</span>*/}
-          {/*      <span className={styles.totalCount}>({contentsInfoListStatus.contentsInfoList.length})</span>*/}
-          {/*    </div>*/}
-          {/*  )}*/}
-          {/*</Island>*/}
+          {/*{!isBlocked ? (*/}
+          {/*  <div>*/}
+          {/*    <span className={styles.pageTitle}>전체</span>*/}
+          {/*    <span className={styles.totalCount}>({contentsInfoListStatus.contentsInfoList.length})</span>*/}
+          {/*  </div>*/}
+          {/*) : (*/}
+          {/*  <div>*/}
+          {/*    <span>동기화 시점까지 {timeLeft} 초</span>*/}
+          {/*  </div>*/}
+          {/*)}*/}
+          <div>
+            <span className={styles.pageTitle}>전체</span>
+            <span className={styles.totalCount}>({contentsInfoListStatus.contentsInfoList.length})</span>
+          </div>
           <div>
             <button className={styles.sortBtn} onClick={() => startBlock(10)}>
               컨텐츠 정렬 ▽

@@ -3,32 +3,27 @@ import styles from './UnderIsland.module.scss';
 
 interface IslandProps {
   children: React.ReactNode;
+  content: React.ReactNode;
   spread: boolean;
-  stylesOnNorm?: React.CSSProperties;
-  stylesOnSpread?: React.CSSProperties;
 }
 
-export default function UnderIsland({ children, spread, stylesOnNorm, stylesOnSpread }: IslandProps) {
+export default function UnderIsland({ children, content, spread }: IslandProps) {
   return (
-    <div
-      className={`${styles.underIsland} ${spread ? styles.active : ''}`}
-      // style={
-      //   spread
-      //     ? {
-      //         ...(stylesOnSpread != undefined ? stylesOnSpread : defaultStylesOnSpread),
-      //         // backgroundColor: '#f5f5f5',
-      //         // display: 'flex',
-      //         // alignItems: 'center',
-      //         // justifyContent: 'center',
-      //       }
-      //     : { ...(stylesOnNorm != undefined ? stylesOnNorm : defaultStylesOnNorm) }
-      // }
-    >
-      <div className={styles.island}>
-        <div className={styles.islandContent}>ddddd</div>
+    <div className={`${styles.underIsland} ${spread ? styles.active : ''}`}>
+      <div
+        className={styles.island}
+        // style={
+        //   spread
+        //     ? {
+        //         height: '400px',
+        //       }
+        //     : undefined
+        // }
+      >
+        {/* 닫힘 시점에 컨텐츠가 잔존하여 지저분한 모습을 보이는 일이 없도록 조건부 랜더링 처리 */}
+        <div className={styles.islandContent}>{spread ? content : ''}</div>
       </div>
       <div className={styles.content}>{children}</div>
-      {/*{spread ? <div className={styles.spread}>{children}</div> : <div className={styles.collapsed}>{children}</div>}*/}
     </div>
   );
 }
