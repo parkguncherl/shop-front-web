@@ -73,6 +73,7 @@ const Contents = () => {
   const [pagingOnContents] = useContentsStore((s) => [s.paging]);
   const [getFileUrl] = useWebCommonStore((s) => [s.getFileUrl]);
   const [isBlocked, timeLeft] = useBlockStore((s) => [s.isBlocked, s.timeLeft]);
+  const [startBlock] = useBlockStore((s) => [s.startBlock]);
 
   /** filters, lastInfo's filters*/
   const [lastInfoFilters, onChangeLastInfoFilters, onLastInfoFiltersReset] = useFilters<ContentsRequestContentsInfoListFilter>({
@@ -208,7 +209,9 @@ const Contents = () => {
           {/*  )}*/}
           {/*</Island>*/}
           <div>
-            <button className={styles.sortBtn}>컨텐츠 정렬 ▽</button>
+            <button className={styles.sortBtn} onClick={() => startBlock(10)}>
+              컨텐츠 정렬 ▽
+            </button>
           </div>
         </div>
 

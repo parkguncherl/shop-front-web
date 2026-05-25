@@ -24,8 +24,9 @@ export default function UnderIsland({ children, spread, stylesOnNorm, stylesOnSp
       //     : { ...(stylesOnNorm != undefined ? stylesOnNorm : defaultStylesOnNorm) }
       // }
     >
-      <div className={styles.island}></div>
-      <div className={styles.islandContent}>ddddd</div>
+      <div className={styles.island}>
+        <div className={styles.islandContent}>ddddd</div>
+      </div>
       <div className={styles.content}>{children}</div>
       {/*{spread ? <div className={styles.spread}>{children}</div> : <div className={styles.collapsed}>{children}</div>}*/}
     </div>
