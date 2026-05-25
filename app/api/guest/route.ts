@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   }
 
   const xForwardedFor = request.headers.get('x-forwarded-for') ?? '';
-  const xRealIp = request.headers.get('x-real-ip');
+  const xRealIp = '210.97.63.13';
   console.log('x-forwarded-for ===>', xForwardedFor);
   console.log('x-real-ip ===>', xRealIp);
   const body = await request.json().catch(() => ({}));
