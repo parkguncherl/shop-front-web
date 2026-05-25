@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
   const fbclid = body.fbclid ?? '';
 
   try {
-    const backendUrl = `${process.env.NEXT_PUBLIC_SHOP_API_ENDPOINT}/frontWebAuth/guest`;
+    const backendUrl = `${process.env.NEXT_SERVER_API_ENDPOINT}/frontWebAuth/guest`;
     console.log('백엔드 URL ===>', backendUrl); // ← 추가
 
     const res = await fetch(backendUrl, {
