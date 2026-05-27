@@ -104,7 +104,6 @@ const HomePage = () => {
   useEffect(() => {
     return () => {
       onLastInfoFiltersReset();
-
       setGuestReady(false); // guest 토큰 여부 플래그 초기화
     };
   }, [onLastInfoFiltersReset]);
