@@ -20,9 +20,6 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => ({}));
   const userAgent = request.headers.get('user-agent') ?? '';
   const clientIp = xRealIp || xForwardedFor.split(',')[0].trim();
-  console.log('x-forwarded-for ===>', xForwardedFor);
-  console.log('x-real-ip ===>', xRealIp);
-  console.log('clientIp ===>', clientIp);
   const refererUrl = body.refererUrl ?? '';
   const currentUrl = body.currentUrl ?? '';
   const utmSource = body.utmSource ?? '';
@@ -30,6 +27,10 @@ export async function POST(request: NextRequest) {
   const utmCampaign = body.utmCampaign ?? '';
   const utmContent = body.utmContent ?? '';
   const fbclid = body.fbclid ?? '';
+
+  if (!currentUrl || !currentUrl.startsWith('http')) {
+    return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
+  }
 
   try {
     const backendUrl = `${process.env.NEXT_SERVER_API_ENDPOINT}/frontWebAuth/guest`;

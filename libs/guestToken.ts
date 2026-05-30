@@ -38,6 +38,8 @@ export const initGuestToken = async (): Promise<void> => {
       console.log('Guest Token 응답 ===>', data);
     } catch (e) {
       console.error('Guest Token 발급 실패', e);
+    } finally {
+      initPromise = null; // ← 완료 후 초기화
     }
   })();
 
